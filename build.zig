@@ -66,7 +66,7 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         });
 
-        graphics.addIncludePath(b.path("external/The-Forge/"));
+        // graphics.addIncludePath(b.path("external/The-Forge/"));
         graphics.linkLibC();
         if (target.result.abi != .msvc) {
             graphics.linkLibCpp();
@@ -75,6 +75,7 @@ pub fn build(b: *std.Build) void {
         const cflags = &.{
             "-D3D12_AGILITY_SDK=1",
             "-D3D12_AGILITY_SDK_VERSION=715",
+            "-DEXTERNAL_RENDERER_CONFIG_FILEPATH=\"\"",
         };
 
         graphics.addCSourceFiles(.{
