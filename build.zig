@@ -50,8 +50,11 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12_cxx.cpp",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12.c",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12Hooks.c",
-            // "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12Hooks.cpp",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12Raytracing.c",
+            "external/The-Forge/Common_3/Tides/WindowsFileSystem.c",
+            "external/The-Forge/Common_3/Tides/WindowsLog.c",
+            "external/The-Forge/Common_3/Tides/WindowsMemory.c",
+            "external/The-Forge/Common_3/Tides/WindowsThread.c",
         },
         .flags = cflags,
     });
