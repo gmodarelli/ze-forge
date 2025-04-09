@@ -26,31 +26,39 @@ pub fn buildExe(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
 }
 
 pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.builtin.OptimizeMode) void {
-    const lib_zf = b.addStaticLibrary(.{
-        .name = "lib_zf",
+    const ze_forge_c_cpp = b.addStaticLibrary(.{
+        .name = "ze_forge_c_cpp",
         .target = target,
         .optimize = optimize,
     });
 
-    lib_zf.linkLibC();
+    ze_forge_c_cpp.linkLibC();
     if (target.result.abi != .msvc) {
-        lib_zf.linkLibCpp();
+        ze_forge_c_cpp.linkLibCpp();
     }
 
     const cflags = &.{
+        "-DTIDES",
         "-DD3D12_AGILITY_SDK=1",
         "-DD3D12_AGILITY_SDK_VERSION=715",
-        // "-DEXTERNAL_RENDERER_CONFIG_FILEPATH=\"external/Examples_3/Sandbox/Code/ExternalRendererConfig.h\"",
     };
 
-    lib_zf.addCSourceFiles(.{
+    ze_forge_c_cpp.addCSourceFiles(.{
         .files = &.{
+            // Single header libraries
             "src/single_header_wrapper.cpp",
+
+            // The-forge graphics
             "external/The-Forge/Common_3/Graphics/GraphicsConfig.cpp",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12_cxx.cpp",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12.c",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12Hooks.c",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12Raytracing.c",
+            // Glue
+            "external/The-Forge/Common_3/Graphics/Interfaces/IGraphics_glue.cpp",
+            "external/The-Forge/Common_3/Graphics/Interfaces/IRay_glue.cpp",
+
+            // TIDES
             "external/The-Forge/Common_3/Tides/WindowsFileSystem.c",
             "external/The-Forge/Common_3/Tides/WindowsLog.c",
             "external/The-Forge/Common_3/Tides/WindowsMemory.c",
@@ -59,7 +67,15 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
         .flags = cflags,
     });
 
-    b.installArtifact(lib_zf);
+    b.installArtifact(ze_forge_c_cpp);
+
+    var ze_forge = b.addModule("ze_forge", .{
+        .root_source_file = b.path("src/root.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+
+    ze_forge.linkLibrary(ze_forge_c_cpp);
 }
 
 pub fn build(b: *std.Build) void {
