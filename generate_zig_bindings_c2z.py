@@ -19,6 +19,9 @@ headers = [
         os.path.join(common_path, "Graphics", "Interfaces", "IGraphics.h"),
     ),
     Header(
+        os.path.join(common_path, "Graphics", "Interfaces", "IGraphicsTides.h"),
+    ),
+    Header(
         os.path.join(common_path, "Graphics", "Interfaces", "IRay.h"),
     ),
     # Header(

@@ -58,6 +58,10 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
             "external/The-Forge/Common_3/Graphics/Interfaces/IGraphics_glue.cpp",
             "external/The-Forge/Common_3/Graphics/Interfaces/IRay_glue.cpp",
 
+            // TIDES Graphics
+            "external/The-Forge/Common_3/Graphics/GraphicsTides.c",
+            "external/The-Forge/Common_3/Graphics/Interfaces/IGraphicsTides_glue.cpp",
+
             // TIDES
             "external/The-Forge/Common_3/Tides/WindowsFileSystem.c",
             "external/The-Forge/Common_3/Tides/WindowsLog.c",
