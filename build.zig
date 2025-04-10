@@ -1,30 +1,5 @@
 const std = @import("std");
 
-pub fn buildExe(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.builtin.OptimizeMode) void {
-    const exe = b.addExecutable(.{
-        .name = "ze-forge",
-        .root_source_file = null,
-        .target = target,
-        .optimize = optimize,
-    });
-
-    const abi = (std.zig.system.resolveTargetQuery(target.query) catch unreachable).abi;
-    exe.linkLibC();
-    if (abi != .msvc) {
-        exe.linkLibCpp();
-    }
-
-    {
-        const run_cmd = b.addRunArtifact(exe);
-        if (b.args) |args| {
-            run_cmd.addArgs(args);
-        }
-
-        const run_step = b.step("run", "Run the app");
-        run_step.dependOn(&run_cmd.step);
-    }
-}
-
 pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.builtin.OptimizeMode) void {
     const ze_forge_c_cpp = b.addStaticLibrary(.{
         .name = "ze_forge_c_cpp",
@@ -74,7 +49,7 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
     b.installArtifact(ze_forge_c_cpp);
 
     var ze_forge = b.addModule("ze_forge", .{
-        .root_source_file = b.path("src/root.zig"),
+        .root_source_file = b.path("root.zig"),
         .target = target,
         .optimize = optimize,
     });
@@ -86,5 +61,4 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
     buildLib(b, target, optimize);
-    // buildExe(b, target, optimize);
 }

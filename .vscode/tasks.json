@@ -20,6 +20,22 @@
             }
         },
         {
+            "label": "build_test_exe",
+            "type": "shell",
+            "command": "zig build",
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/test"
+            },
+            "presentation": {
+                "clear": true,
+                // "revealProblems": "onProblem"
+            }
+        },
+        {
             "label": "build_c2z",
             "type": "shell",
             "command": "zig build",
