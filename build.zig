@@ -29,6 +29,7 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12.c",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12Hooks.c",
             "external/The-Forge/Common_3/Graphics/Direct3D12/Direct3D12Raytracing.c",
+            "external/The-Forge/Common_3/Utilities/ThirdParty/OpenSource/bstrlib/bstrlib.c",
             // Glue
             "external/The-Forge/Common_3/Graphics/Interfaces/IGraphics_glue.cpp",
             "external/The-Forge/Common_3/Graphics/Interfaces/IRay_glue.cpp",

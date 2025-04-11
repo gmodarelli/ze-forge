@@ -24,6 +24,25 @@ pub fn buildExe(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
     exe.root_module.addImport("ze_forge", ze_forge.module("ze_forge"));
     exe.linkLibrary(ze_forge.artifact("ze_forge_c_cpp"));
 
+    exe.addLibraryPath(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/nvapi/amd64/"));
+    exe.addLibraryPath(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/ags/ags_lib/lib"));
+    exe.linkSystemLibrary("amd_ags_x64");
+    exe.linkSystemLibrary("nvapi64");
+    exe.linkSystemLibrary("kernel32");
+    exe.linkSystemLibrary("user32");
+    exe.linkSystemLibrary("gdi32");
+    exe.linkSystemLibrary("winspool");
+    exe.linkSystemLibrary("comdlg32");
+    exe.linkSystemLibrary("advapi32");
+    exe.linkSystemLibrary("shell32");
+    exe.linkSystemLibrary("ole32");
+    exe.linkSystemLibrary("oleaut32");
+    exe.linkSystemLibrary("uuid");
+    exe.linkSystemLibrary("odbc32");
+    exe.linkSystemLibrary("odbccp32");
+    exe.linkSystemLibrary("dxguid");
+    exe.linkSystemLibrary("d3d12");
+
     b.installArtifact(exe);
 
     {
