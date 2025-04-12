@@ -7,16 +7,23 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
         .optimize = optimize,
     });
 
-    ze_forge_c_cpp.linkLibC();
-    if (target.result.abi != .msvc) {
-        ze_forge_c_cpp.linkLibCpp();
-    }
+    std.debug.assert(target.result.abi == .msvc);
+    // ze_forge_c_cpp.linkLibC();
+    // if (target.result.abi != .msvc) {
+    //     ze_forge_c_cpp.linkLibCpp();
+    // }
 
     const cflags = &.{
         "-DTIDES",
         "-DD3D12_AGILITY_SDK=1",
         "-DD3D12_AGILITY_SDK_VERSION=715",
+        "-msse2",
     };
+
+    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/shared"));
+    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/ucrt"));
+    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/um"));
+    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc_BuildTools/VC/Tools/MSVC/14.39.33519/include"));
 
     ze_forge_c_cpp.addCSourceFiles(.{
         .files = &.{

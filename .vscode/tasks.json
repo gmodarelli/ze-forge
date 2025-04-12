@@ -6,7 +6,8 @@
         {
             "label": "build_lib",
             "type": "shell",
-            "command": "zig build",
+            "command": "zig build -Dtarget=native-native-msvc",
+            // "command": "zig build",
             "group": "build",
             "problemMatcher": [
                 "$gcc"
@@ -22,7 +23,8 @@
         {
             "label": "build_test_exe",
             "type": "shell",
-            "command": "zig build",
+            "command": "zig build -Dtarget=native-native-msvc --verbose",
+            // "command": "zig build --verbose",
             "group": "build",
             "problemMatcher": [
                 "$gcc"

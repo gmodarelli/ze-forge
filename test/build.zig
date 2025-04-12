@@ -14,19 +14,27 @@ pub fn buildExe(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
         exe.linkLibCpp();
     }
 
-    // const ze_forge = b.dependency("ze_forge", .{
-    //     .target = target,
-    //     .optimize = optimize,
-    // });
-    // exe.root_module.addImport("ze_forge", ze_forge.module("root"));
-
-    const ze_forge = b.dependency("ze_forge", .{});
+    const ze_forge = b.dependency("ze_forge", .{
+        .target = target,
+        .optimize = optimize,
+    });
     exe.root_module.addImport("ze_forge", ze_forge.module("ze_forge"));
     exe.linkLibrary(ze_forge.artifact("ze_forge_c_cpp"));
 
     exe.addLibraryPath(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/nvapi/amd64/"));
     exe.addLibraryPath(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/ags/ags_lib/lib"));
-    exe.linkSystemLibrary("amd_ags_x64");
+    exe.addLibraryPath(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/winpixeventruntime/bin"));
+
+    exe.addIncludePath(b.path("../../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/shared"));
+    exe.addIncludePath(b.path("../../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/ucrt"));
+    exe.addIncludePath(b.path("../../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/um"));
+    exe.addIncludePath(b.path("../../../tools/external/msvc_BuildTools/VC/Tools/MSVC/14.39.33519/include"));
+
+    exe.addObjectFile(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/ags/ags_lib/lib/amd_ags_x64.lib"));
+    exe.addObjectFile(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/winpixeventruntime/bin/WinPixEventRuntime.lib"));
+    // exe.linkSystemLibrary("amd_ags_x64");
+    // exe.linkSystemLibrary("WinPixEventRuntime");
+    exe.linkSystemLibrary("dxcompiler");
     exe.linkSystemLibrary("nvapi64");
     exe.linkSystemLibrary("kernel32");
     exe.linkSystemLibrary("user32");
@@ -42,6 +50,7 @@ pub fn buildExe(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
     exe.linkSystemLibrary("odbccp32");
     exe.linkSystemLibrary("dxguid");
     exe.linkSystemLibrary("d3d12");
+    exe.linkSystemLibrary("legacy_stdio_definitions");
 
     b.installArtifact(exe);
 
