@@ -25,11 +25,6 @@ pub fn buildExe(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
     exe.addLibraryPath(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/ags/ags_lib/lib"));
     exe.addLibraryPath(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/winpixeventruntime/bin"));
 
-    exe.addIncludePath(b.path("../../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/shared"));
-    exe.addIncludePath(b.path("../../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/ucrt"));
-    exe.addIncludePath(b.path("../../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/um"));
-    exe.addIncludePath(b.path("../../../tools/external/msvc_BuildTools/VC/Tools/MSVC/14.39.33519/include"));
-
     exe.addObjectFile(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/ags/ags_lib/lib/amd_ags_x64.lib"));
     exe.addObjectFile(b.path("../external/The-Forge/Common_3/Graphics/ThirdParty/OpenSource/winpixeventruntime/bin/WinPixEventRuntime.lib"));
     // exe.linkSystemLibrary("amd_ags_x64");

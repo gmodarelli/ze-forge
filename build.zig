@@ -20,10 +20,10 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
         "-msse2",
     };
 
-    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/shared"));
-    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/ucrt"));
-    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/um"));
-    ze_forge_c_cpp.addIncludePath(b.path("../../tools/external/msvc_BuildTools/VC/Tools/MSVC/14.39.33519/include"));
+    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/shared"));
+    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/ucrt"));
+    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/um"));
+    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc_BuildTools/VC/Tools/MSVC/14.39.33519/include"));
 
     ze_forge_c_cpp.addCSourceFiles(.{
         .files = &.{
