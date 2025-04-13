@@ -1,5 +1,28 @@
 const std = @import("std");
 
+fn addMSVCIncludePaths(compile: *std.Build.Step.Compile, allocator: std.mem.Allocator) void {
+    const vctools_install_dir = std.process.getEnvVarOwned(allocator, "VCToolsInstallDir") catch unreachable;
+    const sdk_path = std.process.getEnvVarOwned(allocator, "WindowsSdkDir") catch unreachable;
+    const sdk_version = std.process.getEnvVarOwned(allocator, "WindowsSDKLibVersion") catch unreachable;
+    defer allocator.free(vctools_install_dir);
+    defer allocator.free(sdk_path);
+    defer allocator.free(sdk_version);
+
+    const vctools_include_path = std.fs.path.join(allocator, &[_][]const u8{vctools_install_dir, "include"}) catch unreachable;
+    const shared_include_path = std.fs.path.join(allocator, &[_][]const u8{sdk_path, "Include", sdk_version, "shared"}) catch unreachable;
+    const ucrt_include_path = std.fs.path.join(allocator, &[_][]const u8{sdk_path, "Include", sdk_version, "ucrt"}) catch unreachable;
+    const um_include_path = std.fs.path.join(allocator, &[_][]const u8{sdk_path, "Include", sdk_version, "um"}) catch unreachable;
+    defer allocator.free(vctools_include_path);
+    defer allocator.free(shared_include_path);
+    defer allocator.free(ucrt_include_path);
+    defer allocator.free(um_include_path);
+
+    compile.addSystemIncludePath(.{ .cwd_relative = vctools_include_path });
+    compile.addSystemIncludePath(.{ .cwd_relative = shared_include_path });
+    compile.addSystemIncludePath(.{ .cwd_relative = ucrt_include_path });
+    compile.addSystemIncludePath(.{ .cwd_relative = um_include_path });
+}
+
 pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.builtin.OptimizeMode) void {
     const ze_forge_c_cpp = b.addStaticLibrary(.{
         .name = "ze_forge_c_cpp",
@@ -20,10 +43,9 @@ pub fn buildLib(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.b
         "-msse2",
     };
 
-    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/shared"));
-    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/ucrt"));
-    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc/Windows Kits/10/Include/10.0.22621.0/um"));
-    ze_forge_c_cpp.addSystemIncludePath(b.path("../../tools/external/msvc_BuildTools/VC/Tools/MSVC/14.39.33519/include"));
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator = gpa.allocator();
+    addMSVCIncludePaths(ze_forge_c_cpp, allocator);
 
     ze_forge_c_cpp.addCSourceFiles(.{
         .files = &.{
