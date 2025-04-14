@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "test exe",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/test/zig-out/bin/ze-forge-test.exe",
+            // "program": "../c2z/zig-out/bin/c2z.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/test/zig-out/bin/",
+            "environment": [],
+            "preLaunchTask": "build_test_exe"
+        },
+        {
             "name": "c2z",
             "type": "cppvsdbg",
             "request": "launch",

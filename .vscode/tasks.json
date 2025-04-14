@@ -11,7 +11,7 @@
             "args": [
                 "/d",
                 "/c",
-                "..\\tides\\tools\\external\\msvc_BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat",
+                "..\\..\\tools\\external\\msvc_BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat",
                 "'&'",
                 "zig",
                 "build",
@@ -38,7 +38,7 @@
             "args": [
                 "/d",
                 "/c",
-                "..\\..\\tides\\tools\\external\\msvc_BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat",
+                "..\\..\\..\\tools\\external\\msvc_BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat",
                 "'&'",
                 "zig",
                 "build",
